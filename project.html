@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Списковые включения (List Comprehensions) в Python</title>
+    <link rel="stylesheet" type="text/css" href="sty.css"> 
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Списковые включения (List Comprehensions) в Python</h1>
+            <p class="subtitle">Изучение компактного синтаксиса для создания списков</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="#authors"><i class="fas fa-user icon"></i> Автор</a></li>
+                <li><a href="#theory"><i class="fas fa-book icon"></i> Теория</a></li>
+                <li><a href="#practice"><i class="fas fa-code icon"></i> Практика</a></li>
+                <li><a href="#test"><i class="fas fa-question-circle icon"></i> Тест</a></li>
+            </ul>
+        </nav>
+        
+        <section id="authors">
+            <h2><i class="fas fa-user"></i> Автор проекта</h2>
+            <div class="authors">
+                <div class="author-card">
+                    <h3>Астраухова Божена</h3>
+                    <p><strong>Роль:</strong> Разработка теоретической и практической части</p>
+                    <p><strong>Вклад:</strong> Написание контента, создание иллюстраций, программирование задач, верстка сайта</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="theory">
+            <h2><i class="fas fa-book"></i> Теоретическая часть</h2>
+            
+            <div class="theory-content">
+                <h3>Теоретический раздел: Списковые включения (List Comprehensions)</h3>
+                
+                <h4>1. Введение и концепция</h4>
+                <p><strong>Списковое включение (list comprehension)</strong> — это элегантный и компактный синтаксис в Python, предназначенный для создания новых списков на основе существующих итерируемых объектов (например, списков, строк, диапазонов). Эта конструкция является воплощением принципа <strong>«pythonic code»</strong> — она позволяет заменять многострочные циклы <code>for</code> и операции с <code>map()</code>/<code>filter()</code> одной читаемой строкой, повышая как выразительность кода, так и часто его производительность.</p>
+                
+                <p>Его синтаксис и логика заимствованы из математики, где для описания множества используется правило, а не перечисление элементов, и стала одной из определяющих особенностей Python. Основная идея заключается в том, чтобы описать, <em>какой элемент</em> добавить в новый список и <em>при каких условиях</em>, используя декларативный стиль, близкий к естественному языку.</p>
+                
+                <h4>2. Базовый синтаксис и компоненты</h4>
+                <p>Базовый синтаксис спискового включения можно представить следующей схемой:</p>
+                
+                <div class="syntax-example">
+new_list = [expression for item in iterable if condition]
+                </div>
+                
+                <p>Давайте разберем каждый компонент:</p>
+                <ul>
+                    <li><strong><code>iterable</code> (итерируемый объект):</strong> Источник данных. Это может быть список, кортеж, строка, диапазон (<code>range</code>), генератор или любой другой объект, поддерживающий итерацию.</li>
+                    <li><strong><code>item</code> (элемент):</strong> Переменная, которая поочередно принимает значение каждого элемента из <code>iterable</code>.</li>
+                    <li><strong><code>expression</code> (выражение):</strong> Произвольное валидное выражение Python, результат вычисления которого становится элементом нового списка. Это может быть сама переменная <code>item</code>, арифметическая операция над ней, вызов функции или любой другой выражение.
+                        <ul>
+                            <li>Пример: <code>x*2</code>, <code>str(x)</code>, <code>factorial(x)</code>, <code>(x, x**2)</code>.</li>
+                        </ul>
+                    </li>
+                    <li><strong><code>if condition</code> (условие, опционально):</strong> Фильтр. Элемент будет обработан и добавлен в <code>new_list</code>, только если логическое выражение <code>condition</code> вернет <code>True</code> для текущего значения <code>item</code>.</li>
+                </ul>
+                
+                <p>Синтаксически структура аналогична развернутому циклу <code>for</code>, но записанному в одну строку и заключенному в квадратные скобки <code>[]</code>.</p>
+                
+                <h4>3. Эволюция от цикла к включению: наглядные примеры</h4>
+                <p>Лучший способ понять силу списковых включений — сравнить их с традиционными циклами.</p>
+                
+                <p><strong>Пример 1: Простое преобразование</strong></p>
+                <ul>
+                    <li><strong>Цикл <code>for</code>:</strong>
+                        <div class="code-example">
+numbers = [1, 2, 3, 4, 5]
+<p>squares = </p>
+<p>for num in numbers:</p>
+    <p>squares.append(num ** 2)</p>
+<p># squares = [1, 4, 9, 16, 25]</p>
+                        </div>
+                    </li>
+                    <li><strong>Списковое включение:</strong>
+                        <div class="code-example">
+numbers = [1, 2, 3, 4, 5]
+<p>squares = [num ** 2 for num in numbers]</p>
+<p># squares = [1, 4, 9, 16, 25]</p>
+                        </div>
+                    </li>
+                </ul>
+                <p>Оба подхода дают идентичный результат, но включение короче и яснее выражает намерение: «создать список квадратов для каждого <code>num</code> в <code>numbers</code>.</p>
+                
+                <p><strong>Пример 2: Преобразование с фильтрацией</strong></p>
+                <p>Допустим, нужны только квадраты четных чисел.</p>
+                <ul>
+                    <li><strong>Цикл <code>for</code> с условием:</strong>
+                        <div class="code-example">
+numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+<p>even_squares = []</p>
+<p>for num in numbers:</p>
+    <p>if num % 2 == 0:</p>
+        <p>even_squares.append(num ** 2)</p>
+<p># even_squares = [4, 16, 36, 64]</p>
+                        </div>
+                    </li>
+                    <li><strong>Списковое включение с условием <code>if</code>:</strong>
+                        <div class="code-example">
+numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+<p>even_squares = [num ** 2 for num in numbers if num % 2 == 0]</p>
+<p># even_squares = [4, 16, 36, 64]</p>
+                        </div>
+                    </li>
+                </ul>
+                <p>Условие <code>if</code> в конце действует как фильтр.</p>
+                
+                <p><strong>Пример 3: Условное выражение (оператор <code>if-else</code> внутри выражения)</strong></p>
+                <p>Иногда нужно не фильтровать элементы, а по-разному преобразовывать их в зависимости от условия.</p>
+                <ul>
+                    <li><strong>Задача:</strong> Четные числа оставить как есть, нечетные заменить на 0.</li>
+                    <li><strong>Списковое включение с условным выражением:</strong>
+                        <div class="code-example">
+numbers = [1, 2, 3, 4, 5]
+<p>result = [num if num % 2 == 0 else 0 for num in numbers]</p>
+<p># result = [0, 2, 0, 4, 0]</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="note">
+                    <strong>Важно:</strong> В этом случае конструкция <code>if-else</code> является частью <code>expression</code> и располагается <strong>перед</strong> ключевым словом <code>for</code>. Это отличается от фильтрующего условия, которое идет после <code>for</code>.
+                </div>
+                
+                <h4>4. Расширенные возможности</h4>
+                <p><strong>Вложенные циклы</strong></p>
+                <p>Списковые включения могут содержать несколько циклов <code>for</code>, что эквивалентно вложенным циклам. Это полезно для работы с матрицами или создания декартова произведения.</p>
+                <ul>
+                    <li><strong>Пример: "Распрямление" (flatten) вложенного списка.</strong>
+                        <div class="code-example">
+<p>matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]</p>
+<p>flat = [num for row in matrix for num in row]</p>
+<p># flat = [1, 2, 3, 4, 5, 6, 7, 8, 9]</p>
+                        </div>
+                        <p>Порядок циклов в синтаксисе такой же, как и в обычном вложенном цикле: <code>for row in matrix</code> — внешний, <code>for num in row</code> — внутренний.</p>
+                    </li>
+                </ul>
+                
+                <p><strong>Вложенные списковые включения</strong></p>
+                <p>Выражение (<code>expression</code>) внутри включения само может быть другим включением. Это мощный инструмент для создания многомерных структур.</p>
+                <ul>
+                    <li><strong>Пример: Транспонирование матрицы.</strong>
+                        <div class="code-example">
+<p>matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]</p>
+<p>transposed = [[row[i] for row in matrix] for i in range(3)]</p>
+<p># transposed = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]</p>
+                        </div>
+                        <p>Однако с такими конструкциями следует быть осторожным, так как они могут ухудшить читаемость кода.</p>
+                    </li>
+                </ul>
+                <h4>5. Словарные и множественные включения</h4>
+                <p>Идея comprehensions распространяется и на другие структуры данных в Python, сохраняя схожий синтаксис.</p>
+                
+                <ul>
+                    <li><strong>Множественные включения (Set Comprehensions):</strong> Используют фигурные скобки <code>{}</code>. Автоматически удаляют дубликаты.
+                        <div class="code-example">
+<p># Создание множества квадратов, дубликаты игнорируются
+<p>numbers = [1, 2, 2, 3, 3, 4]
+<p>unique_squares = {x**2 for x in numbers}
+<p># unique_squares = {16, 1, 9, 4}
+                        </div>
+                    </li>
+                    <li><strong>Словарные включения (Dictionary Comprehensions):</strong> Также используют фигурные скобки <code>{}</code>, но выражение (<code>expression</code>) должно иметь форму <code>key: value</code>.
+                        <div class="code-example">
+<p># Создание словаря {число: квадрат_числа}</p>
+<p>squares_dict = {x: x**2 for x in range(1, 6)}</p>
+<p># squares_dict = {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <h4>6. Преимущества и предостережения</h4>
+                <p><strong>Преимущества:</strong></p>
+                <ol>
+                    <li><strong>Читаемость и компактность:</strong> Код становится более декларативным и легче воспринимается, особенно для простых операций преобразования и фильтрации.</li>
+                    <li><strong>Производительность:</strong> Внутренняя оптимизация CPython часто делает выполнение списковых включений <strong>быстрее</strong>, чем эквивалентного цикла <code>for</code> с вызовами <code>.append()</code>.</li>
+                    <li><strong>Универсальность:</strong> Позволяет совмещать операции <code>map</code> и <code>filter</code> в одной конструкции.</li>
+                    <li><strong>Избежание побочных эффектов:</strong> Классический пример — корректное создание вложенных структур. Использование операции повторения (<code>*</code>) для списков, содержащих изменяемые объекты, может привести к неожиданному поведению, так как создаются ссылки на один и тот же объект. Списковое включение решает эту проблему, создавая новый объект на каждой итерации.
+                        <ul>
+                            <li><strong>Ошибочный подход:</strong> <code>wrong_matrix = [[""] * 3] * 3</code> (все строки — одна и та же ссылка).</li>
+                            <li><strong>Правильный подход:</strong> <code>correct_matrix = [[""] * 3 for _ in range(3)]</code> (создается три независимых списка).</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <p><strong>Предостережения:</strong></p>
+                <ol>
+                    <li><strong>Сложность:</strong> Слишком сложные или многоуровневые включения (особенно с вложенными <code>for</code> и <code>if-else</code>) могут стать менее читаемыми, чем эквивалентный многострочный цикл. <strong>Принцип "Readability counts" остается в силе</strong>.</li>
+                    <li><strong>Отсутствие побочных эффектов:</strong> Включения предназначены для <strong>создания нового списка</strong>. Они не должны использоваться для операций с побочными эффектами (например, печати на экран, записи в файл, изменения глобальных переменных). Для этого подходит обычный цикл <code>for</code>.</li>
+                </ol>
+                
+                
+                
+                
+            </div>
+        </section>
+        <section id="test">
+            <h2><i class="fas fa-question-circle"></i> Тест по теме</h2>
+            <p>Проверьте свои знания по теме "Списковые включения".</p>
+            
+            <div class="test-container">
+                <div class="question">
+                    <p>1. Какой синтаксис у спискового включения для создания списка квадратов чисел от 1 до 5?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q1" value="a"> [x^2 for x in range(1, 6)]</label>
+                        <label><input type="radio" name="q1" value="b"> [x**2 for x in range(1, 5)]</label>
+                        <label><input type="radio" name="q1" value="c"> [x**2 for x in range(1, 6)]</label>
+                        <label><input type="radio" name="q1" value="d"> [x*2 for x in range(1, 6)]</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>2. Как создать список только четных чисел от 1 до 10 с помощью спискового включения?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q2" value="a"> [x for x in range(1, 11) if x % 2 == 0]</label>
+                        <label><input type="radio" name="q2" value="b"> [x for x in range(1, 10) if x % 2 == 0]</label>
+                        <label><input type="radio" name="q2" value="c"> [x for x in range(1, 11) if x % 2 != 0]</label>
+                        <label><input type="radio" name="q2" value="d"> [x if x % 2 == 0 for x in range(1, 11)]</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>3. Что выведет следующий код: <code>print([char for char in "hello" if char != 'l'])</code>?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q3" value="a"> ['h', 'e', 'o']</label>
+                        <label><input type="radio" name="q3" value="b"> ['h', 'e', 'l', 'l', 'o']</label>
+                        <label><input type="radio" name="q3" value="c"> ['h', 'e']</label>
+                        <label><input type="radio" name="q3" value="d"> ['l', 'l']</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>4. Как создать список длин слов из списка <code>words = ["apple", "banana", "cherry"]</code>?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q4" value="a"> [len(word) for word in words]</label>
+                        <label><input type="radio" name="q4" value="b"> [word.len() for word in words]</label>
+                        <label><input type="radio" name="q4" value="c"> [length(word) for word in words]</label>
+                        <label><input type="radio" name="q4" value="d"> [for word in words: len(word)]</label>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <p>5. Какой результат даст выражение: <code>[(x, y) for x in [1,2] for y in [3,4]]</code>?</p>
+                    <div class="options">
+                        <label><input type="radio" name="q5" value="a"> [(1, 3), (1, 4), (2, 3), (2, 4)]</label>
+                        <label><input type="radio" name="q5" value="b"> [(1, 2), (3, 4)]</label>
+                        <label><input type="radio" name="q5" value="c"> [(1, 3), (2, 4)]</label>
+                        <label><input type="radio" name="q5" value="d"> [1, 2, 3, 4]</label>
+                    </div>
+                </div>
+                
+                <button onclick="checkTest()">Проверить ответы</button>
+                
+                <div id="testResult"></div>
+            </div>
+        </section>
+        
+        <section id="practice">
+            <h2><i class="fas fa-code"></i> Практическая часть</h2>
+            <p>Ниже представлены 5 задач по теме "Списковые включения" с возрастающей сложностью.</p>
+            
+            <div class="tasks">
+                <!-- Задача 1 -->
+                <div class="task">
+                    <h3>Создание списка квадратов чисел <span class="difficulty easy">Простая</span></h3>
+                    <p><strong>Условие:</strong> Создайте список квадратов чисел от 1 до 15 с помощью спискового включения.</p>
+                    
+                    <div class="task-content">
+                        <div class="flowchart">
+                            
+                            <p>Блок-схема решения</p>
+                            <img src="diagram.png">
+                        </div>
+                        <div class="code-example">
+                            squares = [x**2 for x in range(1,16)]
+                            <p>print("квадраты чисел от 1 до 15: ", squares)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-output">
+                        <p><strong>Результат выполнения кода:</strong></p>
+                        <img src="kod1.png">
+                    </div>
+                </div>
+                
+                <!-- Задача 2 -->
+                <div class="task">
+                    <h3>Фильтрация списка строк <span class="difficulty easy">Простая</span></h3>
+                    <p><strong>Условие:</strong> Дан список слов. Создайте новый список, содержащий только те слова, длина которых больше 4 символов.</p>
+                    
+                    <div class="task-content">
+                        <div class="flowchart">
+                            
+                            <p>Блок-схема решения</p>
+                            <img src="z2.png">
+                        </div>
+                        <div class="code-example">
+                            words = ["apple","cat","dog","elefant","brid","computer","book"]
+                            <p>long_words = [word for word in words if len(word) > 4]</p>
+                            <p>print("Исходный список: ", words)</p>
+                            <p>print("Слова длиной больше 4 символов: ", long_words)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-output">
+                        <p><strong>Результат выполнения кода:</strong></p>
+                        <img src="kod2.png">
+                    </div>
+                </div>
+                
+                <!-- Задача 3 -->
+                <div class="task">
+                    <h3>Обработка двумерного списка <span class="difficulty medium">Средняя</span></h3>
+                    <p><strong>Условие:</strong> Дан двумерный список (матрица) чисел. Создайте одномерный список, содержащий все элементы матрицы, которые больше 10.</p>
+                    
+                    <div class="task-content">
+                        <div class="flowchart">
+                            
+                            <p>Блок-схема решения</p>
+                            <img src="z3.png">
+                        </div>
+                        <div class="code-example">
+                            Matrix = [
+                            <p>[5, 12, 8, 15],</p>
+                            <p>[20, 3, 9, 11],</p>
+                            <p></p>
+                            <p>]</p>
+                            <p>large_numbers = [num for row in matrix for num in row if num >10]</p>
+                            <p>print("Исходная матрица")</p>
+                            <p>for i, row in enumerate(matrix,1):</p>
+                            <p>print(f'Строка{i}: {row}')</p>
+                            <p>print("\nЭлементы матрицы, которые больше 10:", large_numbers)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-output">
+                        <p><strong>Результат выполнения кода:</strong></p>
+                        <img src="kod3.png">
+                    </div>
+                </div>
+                
+                <!-- Задача 4 -->
+                <div class="task">
+                    <h3>Генерация пар элементов <span class="difficulty medium">Средняя</span></h3>
+                    <p><strong>Условие:</strong> Даны два списка. Создайте список всех возможных пар (кортежей) элементов, где первый элемент из первого списка, а второй — из второго, но только если сумма элементов пары четная.</p>
+                    
+                    <div class="task-content">
+                        <div class="flowchart">
+                            
+                            <p>Блок-схема решения</p>
+                            <img src="z4.png">
+                        </div>
+                        <div class="code-example">
+                           list1 = [1,2,3,4]
+                            <p>list2 = [5,6,7,8]</p>
+                            <p>pairs = [(x,y) for x in list1 for y in list2 if (x+y)%2 == 0]</p>
+                            <p>print("Пары с четной суммой:")</p>
+                            <p>for i, pair in enumerate(pairs, 1):</p>
+                            <p>x, y = pair</p>
+                            <p>print(f"{i}.{pair}(сумма = {x+y})") </p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-output">
+                        <p><strong>Результат выполнения кода:</strong></p>
+                        <img src="kod4.png">
+                    </div>
+                </div>
+                
+                <!-- Задача 5 -->
+                <div class="task">
+                    <h3>Преобразование вложенных структур <span class="difficulty hard">Сложная</span></h3>
+                    <p><strong>Условие:</strong> Дан список строк. Создайте новый список, в котором каждая строка преобразована в список ее символов, но только для строк длиной более 3 символов.</p>
+                    
+                    <div class="task-content">
+                        <div class="flowchart">
+                            <p>Блок-схема решения</p>
+                            <img src="z5.png">
+                        </div>
+                        <div class="code-example">
+                            strings = ["Caf", "elephant", "dog", "computer", "py", "algorithm"]
+                            <p>char_lists = [list(string) for string in strings if len(string) > 3]</p>
+                            <p>print("Строки длиной больше 3 символов, преобразованные в списки символов.")</p>
+                            <p>for i, char_lists in enumerate(char_lists, 1):</p>
+                            <p>original_string = original_string[i-1]</p>
+                            <p>print(f'{i}.'{original_string}'->{char_list}")</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-output">
+                        <p><strong>Результат выполнения кода:</strong></p>
+                        <img src="kod5.png">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+         <section id="sources">
+            <h2><i class="fas fa-link"></i> Источники информации</h2>
+            <p>В данном разделе представлены источники, использованные при создании проекта, а также дополнительные ресурсы для изучения темы "Списковые включения в Python".</p>
+            
+            <div class="sources-grid">
+                <div class="source-card">
+                    <h4><a href="https://docs.python.org/3/tutorial/datastructures.html" target="_blank">5. Data Structures — Python 3.14.2 documentation</a></h4>
+                    <p class="source-description">Каноническое определение, базовый синтаксис ([expression for item in iterable if condition]), идея замены map() и filter(), аналогия с математической нотацией построения множеств, примеры с вложенными включениями (транспонирование матрицы)</p>
+                </div>
+                 <div class="source-card">
+                    <h4><a href="https://programming-25.mooc.fi/part-11/1-list-comprehensions/" target="_blank">List comprehensions - Python Programming MOOC 2025</a></h4>
+                    <p class="source-description">Идея эволюции от цикла for к компактной записи, акцент на читаемости (pythonic code), демонстрация синтаксиса через сравнение с циклом, примеры с фильтрацией (if).</p>
+                </div>
+                
+                <div class="source-card">
+                    <h4><a href="https://codebra.ru/ru/lessons-python/hellopython/12/2" target="_blank">45. List/dict/set comprehensions (включения) в Python</a></h4>
+                     <p class="source-description">Структурированное объяснение компонентов (выражение, элемент, итерируемый объект, условие), акцент на учебном формате с тестами для самопроверки, что отражено в рекомендации ресурса.</p>
+                </div>
+                
+                <div class="source-card">
+                    <h4><a href="https://habr.com/ru/companies/wunderfund/articles/687520/" target="_blank">5 листингов для лучшего понимания Python</a></h4>
+                    <p class="source-description">Статья о продвинутых техниках работы со списками.</p>
+                </div>
+                
+    </div>
+
+    <script>
+        function checkTest() {
+            // Правильные ответы
+            const correctAnswers = {
+                q1: "c", // [x**2 for x in range(1, 6)]
+                q2: "a", // [x for x in range(1, 11) if x % 2 == 0]
+                q3: "a", // ['h', 'e', 'o']
+                q4: "a", // [len(word) for word in words]
+                q5: "a"  // [(1, 3), (1, 4), (2, 3), (2, 4)]
+            };
+            
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+            
+            // Проверяем каждый вопрос
+            for (const question in correctAnswers) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (selected && selected.value === correctAnswers[question]) {
+                    score++;
+                }
+            }
+            
+            // Вычисляем процент
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            // Формируем результат
+            let resultMessage = `<div class="success"><h3>Результат теста: ${score} из ${totalQuestions} (${percentage}%)</h3>`;
+            
+            if (percentage >= 80) {
+                resultMessage += "<p>Отличный результат! Вы хорошо разбираетесь в списковых включениях.</p>";
+            } else if (percentage >= 60) {
+                resultMessage += "<p>Хороший результат! Вы понимаете основы списковых включений.</p>";
+            } else {
+                resultMessage += "<p>Попробуйте еще раз изучить теоретическую часть и примеры.</p>";
+            }
+            
+            resultMessage += "</div>";
+            
+            // Показываем результат
+            const resultDiv = document.getElementById("testResult");
+            resultDiv.innerHTML = resultMessage;
+            resultDiv.style.display = "block";
+            
+            // Прокручиваем к результату
+            resultDiv.scrollIntoView({ behavior: "smooth" });
+        }
+        
+        // Плавная прокрутка к разделам
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
